@@ -1,5 +1,6 @@
-# IMAGES
+# MEDIA
 *.ppm
+*.mp4
 
 # Prerequisites
 *.d

@@ -13,14 +13,16 @@ the end. A GUI front end is also intended.
 
 More advanced users will be able to manually implement their own shaders.
 
-
+For ffmpeg use this bash command:
+`$ ffmpeg -framerate 30 -i name-%04d.ppm -c:v libx264 -pix_fmt yuv420p output.mp4`
 
 ## TODO list
 - [ ] working prototype (simple ppm file output)
     - [x] create a valid ppm sample file at a fixed resolution
     - [x] create a simple pattern
     - [x] put file in a folder
-    - [ ] loop while moving the pattern to create a simple animation
+    - [x] loop while moving the pattern to create a simple animation
+    - [ ] update logic so i don't print as many new lines as frames
 - [ ] working sample shader
 - [ ] handle custom options (use custom parser to avoid porting issues later on)
     - [ ] custom output file names
