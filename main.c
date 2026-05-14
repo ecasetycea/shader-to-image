@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
+#include <math.h>
 
 
 #define WIDTH 800
@@ -29,10 +30,16 @@ int main(int argc, char* argv[]) {
     //printf("%s\n", ppmHeader);
 
 
-    uint8_t red[] = { 0xff, 0x00, 0x00 };
+    uint8_t red[]  = { 0xff, 0x00, 0x00 };
+    uint8_t blue[] = { 0x00, 0x00, 0xff };
+
     for(int j=0; j<HEIGHT; j++) {
         for(int i=0; i<WIDTH; i++) {
-            fwrite(red, sizeof(uint8_t), 3, file);
+            if(j%100 < 50) {
+                fwrite((i%100 < 50) ? red : blue, sizeof(uint8_t), 3, file);
+            } else {
+                fwrite((i%100 < 50) ? blue : red, sizeof(uint8_t), 3, file);
+            }
         }
     }
 
