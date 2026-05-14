@@ -19,7 +19,7 @@ More advanced users will be able to manually implement their own shaders.
 - [ ] working prototype (simple ppm file output)
     - [x] create a valid ppm sample file at a fixed resolution
     - [x] create a simple pattern
-    - [ ] put file in a folder
+    - [x] put file in a folder
     - [ ] loop while moving the pattern to create a simple animation
 - [ ] working sample shader
 - [ ] handle custom options (use custom parser to avoid porting issues later on)
