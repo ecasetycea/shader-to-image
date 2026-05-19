@@ -1,8 +1,12 @@
 # shader-to-image
 Render shader to a series of image files that can be turned into
 video using ffmpeg. Currently only supports hardcoded shaders in
-C using a single CPU thread and outputting to ppm. Plan to support multithreading,
+C using a single CPU thread and outputting to ppm. Plan to support more file
+formats, automatically generating video, multithreading,
 parsing GLSL/HLSL shaders and GPU rendering.
+
+**Code assumes a linux environment** at the moment. It is highly probable it
+**will not compile** in other environments.
 
 This is a passion project that will let me play with the math behind fragment
 shaders in a very raw way in a custom environment.
@@ -26,10 +30,10 @@ For ffmpeg use this bash command:
     - [x] loop while moving the pattern to create a simple animation
     - [x] update logic so i don't print as many new lines as frames
     - [x] print status bar
-- [ ] working sample shader
+- [x] working sample shader
     - [x] setup vec structs
-    - [ ] rewrite shader in a separate file
-    - [ ] refactor logic in main into functions
+    - [x] rewrite shader in a separate file
+    - [x] refactor logic in main into functions
 - [ ] handle custom options (use custom parser to avoid porting issues later on)
     - [ ] custom output file names
     - [ ] custom duration
