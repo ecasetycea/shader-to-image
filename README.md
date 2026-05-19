@@ -24,6 +24,8 @@ For ffmpeg use this bash command:
     - [x] loop while moving the pattern to create a simple animation
     - [ ] update logic so i don't print as many new lines as frames
 - [ ] working sample shader
+    - [x] setup vec structs
+    - [ ] rewrite shader in a separate file
 - [ ] handle custom options (use custom parser to avoid porting issues later on)
     - [ ] custom output file names
     - [ ] custom duration
