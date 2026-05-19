@@ -38,8 +38,12 @@ int main(int argc, char* argv[]) {
     char ppmHeader[32];
     sprintf(ppmHeader,"P6\n" "%d %d\n" "%d\n", WIDTH, HEIGHT, MAX_COLOR_VALUE);
 
+    printf("\n"); // print new line to consume during loop
     for(int frame = 1; frame <= MAX_FRAMES; frame++) {
-        printf("Currently working on frame %d/%d [%.2f%%]\n",
+        // consume previous line
+        printf("\x1b[1F"); // move to beginning of previous line
+        printf("\x1b[2K"); // clear entire line
+        printf("Currently working on frame %d/%d [%05.2f%%]\n",
                frame,
                MAX_FRAMES,
                ( (float)frame / MAX_FRAMES ) * 100
@@ -55,7 +59,7 @@ int main(int argc, char* argv[]) {
         // write header
         fwrite(ppmHeader, sizeof(char), strlen(ppmHeader), file);
 
-        /*
+        
         // moving squares shader
         int xWarped;
         int yWarped;
@@ -72,18 +76,19 @@ int main(int argc, char* argv[]) {
                 else
                     fwrite(blue, sizeof(uint8_t), 3, file);
 
-                / *
+                /*
                 //if( (j + frame*SPEED) % 90 < 30) {
                 //    fwrite( ((i + frame*SPEED) % 100 < 50) ? red : blue, sizeof(uint8_t), 3, file);
                 //}
                 //else if( (j)) {
                 //    fwrite( ((i + frame*SPEED) % 100 < 50) ? blue : red, sizeof(uint8_t), 3, file);
                 //}
-                * /
+                */
             }
         }
-        */
+        
 
+        /*
         // diy hyperbolic shader (trippy)
         double u;
         double v;
@@ -123,7 +128,7 @@ int main(int argc, char* argv[]) {
                 fwrite(colorInt, sizeof(uint8_t), 3, file);
             }
         }
-
+        */
 
         fclose(file);
     }

@@ -22,10 +22,12 @@ For ffmpeg use this bash command:
     - [x] create a simple pattern
     - [x] put file in a folder
     - [x] loop while moving the pattern to create a simple animation
-    - [ ] update logic so i don't print as many new lines as frames
+    - [x] update logic so i don't print as many new lines as frames
+    - [ ] print status bar
 - [ ] working sample shader
     - [x] setup vec structs
     - [ ] rewrite shader in a separate file
+    - [ ] refactor logic in main into functions
 - [ ] handle custom options (use custom parser to avoid porting issues later on)
     - [ ] custom output file names
     - [ ] custom duration
