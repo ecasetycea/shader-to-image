@@ -1,29 +1,31 @@
 # shader-to-image
-CPU renderer that takes a fragment shader from a hardcoded list and renders it
-to a series of image files to be used as video frames in ffmpeg.
+Render shader to a series of image files that can be turned into
+video using ffmpeg. Currently only supports hardcoded shaders in
+C using a single CPU thread and outputting to ppm. Plan to support multithreading,
+parsing GLSL/HLSL shaders and GPU rendering.
 
 This is a passion project that will let me play with the math behind fragment
 shaders in a very raw way in a custom environment.
 
-Initial implementation will output only to ppm files due to the simplicity of
-the format. My final image for this project is a user friendly program that can
-even be released as an executable, where the user can choose a shader from a
-list, some parameters like speed, length, resolution, and then have a video at
-the end. A GUI front end is also intended.
+In the final implementation I want the user to be able to:
+1. Choose a shader from a precompiled list
+2. Load existing shader file
+3. Load shadertoy shaders natively
+4. Write shaders in an included GUI editor
+5. Preview shaders in the GUI
 
-More advanced users will be able to manually implement their own shaders.
 
 For ffmpeg use this bash command:
 `$ ffmpeg -framerate 30 -i name-%04d.ppm -c:v libx264 -pix_fmt yuv420p output.mp4`
 
 ## TODO list
-- [ ] working prototype (simple ppm file output)
+- [x] working prototype (simple ppm file output)
     - [x] create a valid ppm sample file at a fixed resolution
     - [x] create a simple pattern
     - [x] put file in a folder
     - [x] loop while moving the pattern to create a simple animation
     - [x] update logic so i don't print as many new lines as frames
-    - [ ] print status bar
+    - [x] print status bar
 - [ ] working sample shader
     - [x] setup vec structs
     - [ ] rewrite shader in a separate file
@@ -32,14 +34,16 @@ For ffmpeg use this bash command:
     - [ ] custom output file names
     - [ ] custom duration
     - [ ] custom speed / framerate
-- [ ] use build scripts / make / cmake toolchain
+- [ ] setup build toolchain
 - [ ] add a second shader and handle runtime choice (note to self: function pointers)
 - [ ] add different colour palletes and handle runtime choice
 - [ ] have a solid pool of shaders and palletes
 - [ ] port executable from linux to windows
-- [ ] add scripts for automatically creating the video (bash and ps)
+- [ ] automatically create video
 - [ ] add more supported image file types
 - [ ] create a GUI for linux
 - [ ] port GUI to windows
 - [ ] port everything to mac
+- [ ] parse existing shaders
 - [ ] create an integrated text editor to write shaders inside the GUI (requires parser? compile from gui and use as library?)
+- [ ] preview shader

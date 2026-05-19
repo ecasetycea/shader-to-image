@@ -4,6 +4,7 @@
 #include <sys/stat.h>
 #include <errno.h>
 #include <math.h>
+#include <assert.h>
 
 
 #define WIDTH 1920
@@ -12,12 +13,15 @@
 #define MAX_FILENAME_SIZE 56
 #define MAX_FOLDERNAME_SIZE 63
 #define MAX_COLOR_VALUE 255
+#define BUFFER_SIZE 256
 #define SPEED 2
 #define PI 3.1415926535
 
 int main(int argc, char* argv[]) {
     //const int maxColorValue = 255; // 8-bit color
 
+    char textBuffer[BUFFER_SIZE];
+    const int frameNumberOfDigits = (int)log10(MAX_FRAMES) + 1;
     const uint8_t red[]   = { 0xff, 0x00, 0x00 };
     const uint8_t green[] = { 0x00, 0xff, 0x00 };
     const uint8_t blue[]  = { 0x00, 0x00, 0xff };
@@ -40,14 +44,46 @@ int main(int argc, char* argv[]) {
 
     printf("\n"); // print new line to consume during loop
     for(int frame = 1; frame <= MAX_FRAMES; frame++) {
-        // consume previous line
-        printf("\x1b[1F"); // move to beginning of previous line
-        printf("\x1b[2K"); // clear entire line
-        printf("Currently working on frame %d/%d [%05.2f%%]\n",
-               frame,
-               MAX_FRAMES,
-               ( (float)frame / MAX_FRAMES ) * 100
-            );
+        // Print current progress
+        float progress = ( (float)frame / MAX_FRAMES ) * 100;
+
+        memset(textBuffer, '\0', sizeof(textBuffer)); // clear text buffer
+
+        // progress to buffer
+        sprintf(textBuffer,
+            "Currently working on frame [%0*d/%d] - [%05.2f%%] - ",
+            frameNumberOfDigits, frame,
+            MAX_FRAMES,
+            progress
+        );
+
+        // status bar to buffer
+        char tempChar;
+        char* textBufferEnd = strchr(textBuffer, '\0');
+        sprintf(textBufferEnd, "[");
+        textBufferEnd++;
+        for(int i=0; i<50; i++) {
+            if(i < (int)progress / 2) {
+                tempChar = '=';
+            }
+            else if(i > (int)progress / 2) {
+                tempChar = '.' ;
+            }
+            else {
+                tempChar = ((int)progress % 2 == 1) ? '-' : '.';
+            }
+            sprintf(textBufferEnd, "%c", tempChar);
+            textBufferEnd++;
+        }
+        sprintf(textBufferEnd, "]\n");
+
+        // output to terminal        
+        printf("\x1b[1F");   // move to beginning previous line
+        //printf("\x1b[2K"); // clear entire line
+        printf("\x1B[0J");   // erase from cursor to end of screen
+        printf(textBuffer);
+
+        
         sprintf(currentFileName, "testFolder/test-%04d.ppm", frame);
 
         FILE* file = fopen(currentFileName, "wb");
