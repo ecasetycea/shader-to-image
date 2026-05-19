@@ -14,6 +14,7 @@
 
 #define WIDTH 400
 #define HEIGHT 300
+#define FRAMERATE 30.0
 #define MAX_FRAMES 300
 #define MAX_COLOR_VALUE 255
 #define BUFFER_SIZE 256
@@ -29,12 +30,13 @@ static int maxFrameDigits;
 
 extern vec4_t (*shadePixel)(int x, int y, int frame);
 extern int initShaderSettings(
-    int width,
-    int height,
-    int maxColorValue,
+    uint16_t width,
+    uint16_t height,
     shader_t shader,
-    int shaderSpeed
+    float framerate,
+    float shaderSpeed
 );
+extern void advanceFrameTime();
 
 void init(void);
 int createFolder(char* folderName);
@@ -43,19 +45,21 @@ void printProgress(int currentFrame);
 
 int main(int argc, char* argv[]) {
     init();
-
-    // const uint8_t red[]   = { 0xff, 0x00, 0x00 };
-    // const uint8_t green[] = { 0x00, 0xff, 0x00 };
-    // const uint8_t blue[]  = { 0x00, 0x00, 0xff };
-
-
-    initShaderSettings(WIDTH, HEIGHT, MAX_COLOR_VALUE, SQUARES, SPEED);
+    initShaderSettings(WIDTH, HEIGHT, SQUARES, FRAMERATE, SPEED);
 
     for(int frame = 1; frame <= MAX_FRAMES; frame++) {
         printProgress(frame);
 
-        sprintf(workingFilePath, "%s/test-%04d.ppm", workingFolder, frame);
-
+        // setup image path for frame
+        sprintf(
+            workingFilePath,
+            "%s/test-%0*d.ppm",
+            workingFolder,
+            maxFrameDigits,
+            frame
+        );
+        
+        // open file
         FILE* file = fopen(workingFilePath, "wb");
         if(!file) {
             perror("Error opening file");
@@ -64,21 +68,23 @@ int main(int argc, char* argv[]) {
 
         // write header
         fwrite(ppmHeader, sizeof(char), strlen(ppmHeader), file);
-        
+
         vec4_t colors;
         uint8_t colorsInt[3];
-
         for(int j=0; j<HEIGHT; j++) {
             for(int i=0; i<WIDTH; i++) {
                 colors = shadePixel(i, j, frame);
                 for(int k=0; k<3; k++) {
+                    // translate colors to current ppm format
                     colorsInt[k] = (uint8_t)(colors.data[k] * MAX_COLOR_VALUE);
                 }
+                // write to file
                 fwrite(colorsInt, sizeof(uint8_t), 3, file);
             }
         }
         
         fclose(file);
+        advanceFrameTime(); // advance time
     }
 
     return 0;

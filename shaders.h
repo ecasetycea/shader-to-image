@@ -3,16 +3,16 @@
 #ifndef SHADERS_H
 #define SHADERS_H
 typedef enum {
-    SQUARES,
-    SPLIT
+    SQUARES
 } shader_t;
 
 
 int initShaderSettings(
-    int width,
-    int height,
-    int maxColorValue,
+    uint16_t width,
+    uint16_t height,
+    //uint32_t maxColorValue,
     shader_t shader,
-    int shaderSpeed
+    float framerate,
+    float shaderSpeed
 );
 #endif

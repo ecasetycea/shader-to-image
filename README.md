@@ -34,6 +34,7 @@ For ffmpeg use this bash command:
     - [x] setup vec structs
     - [x] rewrite shader in a separate file
     - [x] refactor logic in main into functions
+    - [x] provide all shadertoy variables (time, dt, frame)
 - [ ] handle custom options (use custom parser to avoid porting issues later on)
     - [ ] custom output file names
     - [ ] custom duration
